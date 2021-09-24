@@ -6,12 +6,20 @@ def Level_Org():
 
     # select all surfaces
 
-    srf=rs.ObjectsByType(8)
+    #srf=rs.ObjectsByType(8)
 
+    rs.ZoomExtents("Perspective",1)
+    rs.AddLayer("Surfaces_Test")
+    srf=rs.ObjectsByType(8)
+    for s in srf:
+        if  rs.IsVisibleInView(s) and rs.ObjectType(s) == 8:
+            rs.ObjectLayer(s,"Surfaces_Test")
+            
     # Create bounding boxes for each surface
     # +
     # Calculating bounding boxes centroid
-
+    
+    srf=rs.ObjectsByLayer("Surfaces_Test")
     cnt=[]
     for s in srf:
         if  rs.IsVisibleInView(s) and rs.ObjectType(s) == 8:
@@ -21,7 +29,7 @@ def Level_Org():
             cnt.append((rg.BoundingBox(c)).Center)
     
     # Creating set of levels
-
+    rs.EnableRedraw(0)
     set_=[]
     
     for i in cnt:
@@ -112,7 +120,7 @@ def Level_Org():
         #     evpt=rs.SurfaceClosestPoint(j,midpts_0[srfL.index(i)][k])
         #     distpt=rs.EvaluateSurface(j,evpt[0],evpt[1])
         #     dist=round(rs.Distance(distpt,midpts_0[srfL.index(i)][k]))
-        #     if  dist > 0:
+        #     if  dist > 0: 
         #         print rs.SelectObject(j)
                       
 
