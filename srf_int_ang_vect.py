@@ -1,38 +1,37 @@
 import rhinoscriptsyntax as rs
 import Rhino.Geometry as rg
 from level_org import Level_Org
-from sort_srf_edges import SortSrfEdges
+from sort_srf_vrt import SortSrfVrt
+import rh_toolbox as rt
+import py_toolbox as pt
 
-#mport scipy as sp
-#import matplotlib as plt
 
 
-def Int_Ang(surfaces):
-    int_ang=[]
-    for i,j in enumerate(surfaces):
-        if type(j) == list:
-            int_ang.append([])
-            print ("Level"+" "+str(i))
-            for k,l in enumerate(j):
-                print ("Panel"+" "+ str(k))
-                vectors=SortSrfEdges(l,1)[1]
-                for i,j in enumerate(vectors):
-                    shifted=vectors[i-1]
-                    print ("angle"+ " "+ str(i) + " "+ str(rs.VectorAngle(j,shifted)))
-                points=SortSrfEdges(l,1)[0]
+panels=Level_Org()[1]
 
-                # for i, j in enumerate(points):
-                #     rs.AddTextDot(str(i),j)
+for i,j in enumerate(panels):
+    print ("Level"+" "+str(i))
+    for k,l in enumerate(j):
+        print ("panel"+" "+str(k))
 
-    return (int_ang)
+        points=SortSrfVrt(l,1)
 
-rs.Angle()
-# if __name__=='__main__':
-#     inclination()
-rs.SurfaceDomain
-ang=Int_Ang(Level_Org()[1])
-# for i in Level_Org()[0]:
-#     for j,k in enumerate(i):
-#         rs.AddTextDot(str(j),k)
-#print ang
-rs.alig
+        vectorpA=points
+        vectorpB=pt.listrotate(points,1)
+
+
+        #print vectorpB
+        # for h,i in enumerate(vectorpA):
+        #         rs.AddTextDot(str(h),(i))
+        vectors=[]
+
+        for i,j in enumerate(vectorpA):
+            vectors.append(rs.VectorCreate(j,vectorpB[i]))
+
+        vectorRot=pt.listrotate(vectors,-1)
+
+        for i,j in enumerate(vectors):
+            ang=rs.VectorAngle(j,rs.VectorReverse(vectorRot[i]))
+            rs.AddTextDot(str(ang),points[i])
+            print ang
+

@@ -34,36 +34,7 @@ def SortSrfVrt(surface,rev=0):
 
 
 
-# if __name__ == '__main__': 
-#     SortSrfEdges(surface)
+if __name__ == '__main__': 
+    SortSrfVrt(surface,rev=0)
 
-
-panels=Level_Org()[1]
-
-for i,j in enumerate(panels):
-    print ("Level"+" "+str(i))
-    for k,l in enumerate(j):
-        print ("panel"+" "+str(k))
-        #print rs.coercesurface(l)
-
-        points=SortSrfVrt(l,1)
-
-        vectorpA=points
-        vectorpB=pt.listrotate(points,1)
-
-
-        #print vectorpB
-        # for h,i in enumerate(vectorpA):
-        #         rs.AddTextDot(str(h),(i))
-        vectors=[]
-
-        for i,j in enumerate(vectorpA):
-            vectors.append(rs.VectorCreate(j,vectorpB[i]))
-
-        vectorRot=pt.listrotate(vectors,-1)
-
-        for i,j in enumerate(vectors):
-            ang=rs.VectorAngle(j,rs.VectorReverse(vectorRot[i]))
-            rs.AddTextDot(str(ang),points[i])
-            print ang
 
